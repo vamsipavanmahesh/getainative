@@ -1,8 +1,8 @@
-# Get AI Native Blog
+# Get AI Native
 
-A developer blog built with Astro, hosted on Cloudflare Pages.
+A landing site and blog built with Astro, hosted on Cloudflare Pages.
 
-**Live site:** https://blog.getainative.com
+**Primary site:** https://getainative.com
 
 ## Homepage Source Of Truth
 
@@ -23,7 +23,13 @@ Open http://localhost:4321
 
 ## Deployment
 
-**Auto-deploy:** Push to `main` branch - Cloudflare Pages deploys automatically.
+This repo should deploy as a single Cloudflare Pages project that serves:
+
+- `/` as the landing page
+- `/blog` as the blog index
+- blog posts from the same site build
+
+**Auto-deploy:** Push to `main` if Git integration is configured for the project.
 
 ```bash
 git add .
@@ -35,8 +41,12 @@ git push
 
 ```bash
 npm run build
-npx wrangler pages deploy dist --project-name=getainative-blog
+npx wrangler pages deploy dist --project-name=getainative-landing
 ```
+
+Use the same build for landing, blog listing, and posts.
+Until Cloudflare is renamed or cleaned up, `getainative-landing` is the one project to deploy for `getainative.com`.
+Do not deploy this repo to a separate blog Pages project.
 
 ## Adding Blog Posts
 

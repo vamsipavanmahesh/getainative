@@ -1,0 +1,25 @@
+---
+import PostCard from './PostCard.astro';
+import { getAllPosts } from '../utils/posts';
+
+const posts = await getAllPosts();
+---
+
+<div class="max-w-3xl mx-auto px-4 py-12">
+  <header class="mb-12">
+    <h1 class="text-4xl font-bold mb-4">Blog</h1>
+    <p class="text-lg" style="color: var(--color-text-muted);">
+      Thoughts on automation, developer tools, and software engineering.
+    </p>
+  </header>
+
+  {posts.length === 0 ? (
+    <p style="color: var(--color-text-muted);">No posts yet. Check back soon!</p>
+  ) : (
+    <div class="space-y-10">
+      {posts.map((post) => (
+        <PostCard post={post} />
+      ))}
+    </div>
+  )}
+</div>

@@ -1,8 +1,6 @@
 ---
 import { readFile } from 'node:fs/promises';
 
-// Keep the homepage identical to landing/index.html.
-// Do not port this into Astro markup unless the homepage itself is being redesigned.
 const html = await readFile(new URL('../../landing/index.html', import.meta.url), 'utf8');
 ---
 
