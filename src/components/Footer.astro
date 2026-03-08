@@ -1,0 +1,21 @@
+---
+const currentYear = new Date().getFullYear();
+---
+
+<footer class="border-t mt-16" style="border-color: var(--color-border);" role="contentinfo">
+  <div class="max-w-3xl mx-auto px-4 py-8">
+    <div class="flex flex-col sm:flex-row items-center justify-between gap-4">
+      <p class="text-sm" style="color: var(--color-text-muted);">
+        &copy; {currentYear} DSA Club. All rights reserved.
+      </p>
+      <a
+        href="/rss.xml"
+        class="text-sm hover:opacity-80 transition-opacity"
+        style="color: var(--color-text-muted);"
+        aria-label="RSS Feed"
+      >
+        RSS
+      </a>
+    </div>
+  </div>
+</footer>

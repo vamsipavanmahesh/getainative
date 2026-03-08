@@ -1,0 +1,489 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Code Review: action-text-to-markdown-blobs</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Inter', 'Segoe UI', system-ui, -apple-system, sans-serif;
+      background: #0d1117;
+      color: #e6edf3;
+      line-height: 1.6;
+      padding: 2rem;
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+
+    h1 { font-size: 1.8rem; margin-bottom: 0.5rem; }
+    h2 {
+      font-size: 1.3rem;
+      color: #58a6ff;
+      border-bottom: 1px solid #30363d;
+      padding-bottom: 0.5rem;
+      margin: 2rem 0 1rem;
+    }
+    h3 { font-size: 1.1rem; color: #e6edf3; margin: 1.2rem 0 0.5rem; }
+    p, li { color: #c9d1d9; }
+    a { color: #58a6ff; text-decoration: none; }
+
+    code, pre {
+      font-family: 'JetBrains Mono', 'Fira Code', 'Cascadia Code', 'Consolas', monospace;
+    }
+
+    code {
+      background: #1c2128;
+      padding: 0.15em 0.4em;
+      border-radius: 4px;
+      font-size: 0.9em;
+    }
+
+    pre {
+      background: #161b22;
+      border: 1px solid #30363d;
+      border-radius: 8px;
+      padding: 1rem;
+      overflow-x: auto;
+      font-size: 0.85rem;
+      line-height: 1.5;
+      margin: 1rem 0;
+    }
+
+    .header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      flex-wrap: wrap;
+      gap: 1rem;
+      margin-bottom: 2rem;
+      padding-bottom: 1.5rem;
+      border-bottom: 2px solid #30363d;
+    }
+
+    .header-meta { color: #8b949e; font-size: 0.9rem; }
+
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+      gap: 1rem;
+      margin: 1rem 0;
+    }
+
+    .stat-card {
+      background: #161b22;
+      border: 1px solid #30363d;
+      border-radius: 8px;
+      padding: 1rem;
+      text-align: center;
+    }
+
+    .stat-card .value {
+      font-size: 1.6rem;
+      font-weight: 700;
+      color: #e6edf3;
+    }
+
+    .stat-card .label {
+      font-size: 0.8rem;
+      color: #8b949e;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .table-wrapper { overflow-x: auto; margin: 1rem 0; }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.85rem;
+    }
+
+    th {
+      background: #1c2128;
+      color: #8b949e;
+      text-transform: uppercase;
+      font-size: 0.75rem;
+      letter-spacing: 0.05em;
+      padding: 0.75rem 1rem;
+      text-align: left;
+      border-bottom: 2px solid #30363d;
+      position: sticky;
+      top: 0;
+    }
+
+    td {
+      padding: 0.75rem 1rem;
+      border-bottom: 1px solid #21262d;
+      vertical-align: top;
+    }
+
+    tr:hover td { background: #1c2128; }
+
+    .badge {
+      display: inline-block;
+      padding: 0.2em 0.7em;
+      border-radius: 999px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      letter-spacing: 0.02em;
+    }
+
+    .badge-approved     { background: #12261e; color: #3fb950; border: 1px solid #238636; }
+    .badge-comments     { background: #2a1f0a; color: #d29922; border: 1px solid #9e6a03; }
+    .badge-changes      { background: #2d1214; color: #f85149; border: 1px solid #da3633; }
+
+    .risk-low    { color: #3fb950; }
+    .risk-medium { color: #d29922; }
+    .risk-high   { color: #f85149; }
+
+    .card {
+      background: #161b22;
+      border: 1px solid #30363d;
+      border-radius: 8px;
+      padding: 1rem 1.25rem;
+      margin: 0.75rem 0;
+    }
+
+    .card-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 0.5rem;
+    }
+
+    .card.must-fix    { border-left: 3px solid #f85149; }
+    .card.should-fix  { border-left: 3px solid #d29922; }
+    .card.nice-to-have { border-left: 3px solid #58a6ff; }
+
+    .verdict-box {
+      background: #161b22;
+      border: 2px solid #30363d;
+      border-radius: 12px;
+      padding: 1.5rem 2rem;
+      margin: 2rem 0;
+      text-align: center;
+    }
+
+    .verdict-box .verdict-label {
+      font-size: 1.5rem;
+      font-weight: 700;
+      margin-bottom: 0.75rem;
+    }
+
+    .verdict-box .verdict-note {
+      color: #8b949e;
+      max-width: 600px;
+      margin: 0 auto;
+    }
+
+    .review-order ol {
+      counter-reset: review-step;
+      list-style: none;
+      padding: 0;
+    }
+
+    .review-order li {
+      counter-increment: review-step;
+      padding: 0.5rem 0 0.5rem 2.5rem;
+      position: relative;
+    }
+
+    .review-order li::before {
+      content: counter(review-step);
+      position: absolute;
+      left: 0;
+      width: 1.8rem;
+      height: 1.8rem;
+      background: #1c2128;
+      border: 1px solid #30363d;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: #58a6ff;
+    }
+
+    .footer {
+      margin-top: 3rem;
+      padding-top: 1rem;
+      border-top: 1px solid #30363d;
+      color: #484f58;
+      font-size: 0.8rem;
+      text-align: center;
+    }
+
+    @media (max-width: 768px) {
+      body { padding: 1rem; }
+      .header { flex-direction: column; }
+      .stats-grid { grid-template-columns: repeat(2, 1fr); }
+    }
+
+    @media print {
+      body { background: white; color: #1a1a1a; }
+      .card, .stat-card, pre { border-color: #ccc; background: #f6f6f6; }
+      h2 { color: #0366d6; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- 1. HEADER -->
+  <div class="header">
+    <div>
+      <h1>Code Review: action-text-to-markdown-blobs</h1>
+      <div class="header-meta">
+        Repo: <code>rails/rails</code> &middot; PR: <code>#56894</code> &middot; Base: <code>main</code> &middot; Reviewed: 2026-03-07 &middot; 1 commit
+      </div>
+    </div>
+    <div>
+      <span class="badge badge-approved">&#x2705; Approved</span>
+    </div>
+  </div>
+
+  <!-- 2. EXECUTIVE SUMMARY -->
+  <h2>Executive Summary</h2>
+  <p>This PR enhances Action Text's <code>to_markdown</code> method so that ActiveStorage blob attachments can generate real Markdown links (<code>![title](url)</code> for images, <code>[title](url)</code> for non-images) instead of placeholder <code>[caption]</code> text. The feature is opt-in via an <code>attachment_links: false</code> keyword argument that threads through <code>RichText</code>, <code>Content</code>, <code>Attachment</code>, and all attachable implementations. URL generation leverages the existing thread-local <code>ActionText::Content.renderer</code> set by the engine's <code>around_action</code>, and correctly inherits request context including <code>script_name</code> for multi-tenant apps. The change is backward-compatible &mdash; default behavior is unchanged, the new keyword defaults to <code>false</code>, and custom attachables only need to add the keyword to their method signature.</p>
+
+  <!-- 3. BRANCH STATS -->
+  <h2>Branch Stats</h2>
+  <div class="stats-grid">
+    <div class="stat-card"><div class="value">9</div><div class="label">Files Changed</div></div>
+    <div class="stat-card"><div class="value" style="color:#3fb950">+265</div><div class="label">Insertions</div></div>
+    <div class="stat-card"><div class="value" style="color:#f85149">-61</div><div class="label">Deletions</div></div>
+    <div class="stat-card"><div class="value">1</div><div class="label">Commits</div></div>
+  </div>
+
+  <!-- 4. RECOMMENDED REVIEW ORDER -->
+  <h2>Recommended Review Order</h2>
+  <div class="review-order">
+    <ol>
+      <li><code>actiontext/lib/action_text/engine.rb</code> &mdash; The core logic lives here. The <code>attachable_markdown_representation</code> method on <code>ActiveStorage::Blob</code> is where URL generation and image/non-image branching happens. Start here to understand the feature.</li>
+      <li><code>actiontext/lib/action_text/attachment.rb</code> &mdash; The <code>to_markdown</code> method that delegates to <code>attachable_markdown_representation</code>. Shows how the keyword argument threads through and how the documentation is updated.</li>
+      <li><code>actiontext/lib/action_text/content.rb</code> &mdash; Threads <code>attachment_links:</code> through the rendering pipeline. Important to verify the keyword propagates correctly.</li>
+      <li><code>actiontext/app/models/action_text/rich_text.rb</code> &mdash; The public-facing model method. Simple pass-through but confirms the API surface.</li>
+      <li><code>actiontext/lib/action_text/attachables/remote_image.rb</code> &mdash; Signature update only. Confirms backward compatibility for existing attachable implementations.</li>
+      <li><code>actiontext/lib/action_text/attachables/content_attachment.rb</code> &mdash; Signature update only.</li>
+      <li><code>actiontext/lib/action_text/attachables/missing_attachable.rb</code> &mdash; Signature update only.</li>
+      <li><code>actiontext/test/fixtures/files/report.txt</code> &mdash; New test fixture for non-image blob testing.</li>
+      <li><code>actiontext/test/unit/markdown_conversion_test.rb</code> &mdash; The bulk of the diff. Comprehensive test coverage for all combinations of blob type, caption, renderer context, and edge cases. Read last since the implementation context makes the tests easier to follow.</li>
+    </ol>
+  </div>
+
+  <!-- 5. FLOW DIAGRAMS -->
+  <h2>Architecture &amp; Flow</h2>
+  <h3>Markdown Generation Flow (with <code>attachment_links: true</code>)</h3>
+  <pre>
+┌─────────────────┐     ┌──────────────────┐     ┌────────────────────────────────────┐
+│  RichText       │     │  Content         │     │  Attachment                        │
+│  #to_markdown   │────▶│  #to_markdown    │────▶│  #to_markdown                      │
+│  (keyword fwd)  │     │  (render loop)   │     │  (delegates to attachable)         │
+└─────────────────┘     └──────────────────┘     └──────────┬─────────────────────────┘
+                                                            │
+                                              ┌─────────────┴──────────────┐
+                                              ▼                            ▼
+                                ┌──────────────────────┐    ┌──────────────────────────┐
+                                │  RemoteImage         │    │  ActiveStorage::Blob     │
+                                │  (always generates   │    │  (engine.rb initializer) │
+                                │   ![caption](url))   │    │                          │
+                                └──────────────────────┘    └──────────┬───────────────┘
+                                                                       │
+                                                          ┌────────────┴────────────┐
+                                                          │ attachment_links: true? │
+                                                          └────────────┬────────────┘
+                                                         no │                    │ yes
+                                                            ▼                    ▼
+                                                  ┌──────────────┐    ┌──────────────────────┐
+                                                  │ "[title]"    │    │ Content.renderer     │
+                                                  │ (placeholder)│    │  .url_for(blob)      │
+                                                  └──────────────┘    └──────────┬───────────┘
+                                                                                 │
+                                                                    ┌────────────┴───────────┐
+                                                                    │ image?                 │
+                                                                    └────────────┬───────────┘
+                                                              yes │                    │ no
+                                                                  ▼                    ▼
+                                                        ┌──────────────┐    ┌──────────────────┐
+                                                        │ "![t](url)" │    │ "[t](url)"       │
+                                                        └──────────────┘    └──────────────────┘
+  </pre>
+
+  <h3>Renderer Context Setup</h3>
+  <pre>
+┌─────────────────────┐     around_action      ┌──────────────────────────────────┐
+│  Controller/Mailer  │ ──────────────────────▶ │  ActionText::Content.renderer =  │
+│  (request context)  │                         │  controller (thread-local)       │
+└─────────────────────┘                         └──────────────────────────────────┘
+                                                          │
+                                                          ▼
+                                                ┌──────────────────────┐
+                                                │  renderer.url_for   │
+                                                │  (inherits host,    │
+                                                │   protocol,         │
+                                                │   script_name)      │
+                                                └──────────────────────┘
+  </pre>
+
+  <!-- 6. FILE-LEVEL CHANGES -->
+  <h2>File-Level Changes</h2>
+  <div class="table-wrapper">
+    <table>
+      <thead>
+        <tr>
+          <th>File</th>
+          <th>Type</th>
+          <th>Before</th>
+          <th>After</th>
+          <th>Impact</th>
+          <th>Risk</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><code>actiontext/lib/action_text/engine.rb</code></td>
+          <td>Modified</td>
+          <td>Blob's <code>attachable_markdown_representation</code> always returned <code>[caption]</code> placeholder</td>
+          <td>When <code>attachment_links: true</code> and a renderer exists, generates <code>![title](url)</code> for images or <code>[title](url)</code> for non-images. Falls back to <code>[title]</code> otherwise.</td>
+          <td>Core feature implementation. Blobs can now produce real Markdown links with URLs from the request context.</td>
+          <td><span class="risk-low">&#x1F7E2; Low</span> &mdash; opt-in via keyword, default unchanged</td>
+        </tr>
+        <tr>
+          <td><code>actiontext/lib/action_text/attachment.rb</code></td>
+          <td>Modified</td>
+          <td><code>to_markdown</code> took no arguments</td>
+          <td>Accepts <code>attachment_links:</code> keyword and passes it to <code>attachable_markdown_representation</code>. Documentation expanded with examples.</td>
+          <td>API surface expanded but backward-compatible via default value</td>
+          <td><span class="risk-low">&#x1F7E2; Low</span> &mdash; keyword with default</td>
+        </tr>
+        <tr>
+          <td><code>actiontext/lib/action_text/content.rb</code></td>
+          <td>Modified</td>
+          <td><code>to_markdown</code> took no arguments</td>
+          <td>Accepts and forwards <code>attachment_links:</code> through the render pipeline</td>
+          <td>Plumbing change to propagate the option</td>
+          <td><span class="risk-low">&#x1F7E2; Low</span> &mdash; pure pass-through</td>
+        </tr>
+        <tr>
+          <td><code>actiontext/app/models/action_text/rich_text.rb</code></td>
+          <td>Modified</td>
+          <td><code>to_markdown</code> took no arguments</td>
+          <td>Accepts and forwards <code>attachment_links:</code> to <code>body.to_markdown</code></td>
+          <td>Public model API updated</td>
+          <td><span class="risk-low">&#x1F7E2; Low</span> &mdash; pure pass-through</td>
+        </tr>
+        <tr>
+          <td><code>actiontext/lib/action_text/attachables/remote_image.rb</code></td>
+          <td>Modified</td>
+          <td><code>attachable_markdown_representation(caption)</code></td>
+          <td>Adds <code>attachment_links: false</code> keyword (ignored &mdash; remote images always generate links)</td>
+          <td>Signature alignment for interface consistency</td>
+          <td><span class="risk-low">&#x1F7E2; Low</span> &mdash; no behavior change</td>
+        </tr>
+        <tr>
+          <td><code>actiontext/lib/action_text/attachables/content_attachment.rb</code></td>
+          <td>Modified</td>
+          <td><code>attachable_markdown_representation(caption)</code></td>
+          <td>Adds <code>attachment_links: false</code> keyword (ignored)</td>
+          <td>Signature alignment</td>
+          <td><span class="risk-low">&#x1F7E2; Low</span> &mdash; no behavior change</td>
+        </tr>
+        <tr>
+          <td><code>actiontext/lib/action_text/attachables/missing_attachable.rb</code></td>
+          <td>Modified</td>
+          <td><code>attachable_markdown_representation(caption = nil)</code></td>
+          <td>Adds <code>attachment_links: false</code> keyword (ignored &mdash; still returns &#x2612;)</td>
+          <td>Signature alignment</td>
+          <td><span class="risk-low">&#x1F7E2; Low</span> &mdash; no behavior change</td>
+        </tr>
+        <tr>
+          <td><code>actiontext/test/fixtures/files/report.txt</code></td>
+          <td>Added</td>
+          <td>N/A</td>
+          <td>A one-line text fixture file for testing non-image blob attachments</td>
+          <td>Enables testing <code>[title](url)</code> output for non-image blobs</td>
+          <td><span class="risk-low">&#x1F7E2; Low</span> &mdash; test fixture</td>
+        </tr>
+        <tr>
+          <td><code>actiontext/test/unit/markdown_conversion_test.rb</code></td>
+          <td>Modified</td>
+          <td>Tests covered blob markdown as <code>[caption]</code> only. ~93 lines of attachment tests.</td>
+          <td>Expanded to ~200 lines covering: image vs non-image blobs, with/without captions, with/without <code>attachment_links</code>, controller and mailer renderers, <code>script_name</code> propagation, missing renderer error, metacharacter escaping. Added <code>with_controller_renderer</code> helper.</td>
+          <td>Comprehensive coverage for all new behavior and edge cases</td>
+          <td><span class="risk-low">&#x1F7E2; Low</span> &mdash; tests only</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- 7. REGRESSION RISKS -->
+  <h2>Regression Risks</h2>
+
+  <div class="card">
+    <div class="card-header">
+      <strong>Custom attachables with positional-only <code>attachable_markdown_representation</code></strong>
+      <span class="badge badge-comments">Medium</span>
+    </div>
+    <p><strong>What could break:</strong> Any application that has a custom attachable class implementing <code>attachable_markdown_representation(caption)</code> without the new <code>attachment_links:</code> keyword will receive an <code>ArgumentError</code> when <code>attachment_links: true</code> is passed, since Ruby will reject the unexpected keyword argument.</p>
+    <p><strong>Cause:</strong> The signature of <code>Attachment#to_markdown</code> now always passes <code>attachment_links:</code> to the attachable's <code>attachable_markdown_representation</code>.</p>
+    <p><strong>Severity:</strong> Medium &mdash; only affects apps with custom attachables AND only when <code>attachment_links: true</code> is explicitly used. Default behavior (<code>false</code>) still works because Ruby keyword arguments with defaults don't raise on the caller side.</p>
+    <p><strong>Mitigation:</strong> The commit message documents this: "Custom attachables should add the keyword to their method signature." The PR description also notes this. A CHANGELOG entry or upgrade guide note would help, but this is a minor migration and only affects the opt-in path.</p>
+  </div>
+
+  <div class="card">
+    <div class="card-header">
+      <strong>URL generation depends on renderer availability</strong>
+      <span class="badge badge-approved">Low</span>
+    </div>
+    <p><strong>What could break:</strong> Calling <code>to_markdown(attachment_links: true)</code> outside of a controller/mailer context (e.g., in a background job or console) raises <code>ArgumentError</code>.</p>
+    <p><strong>Cause:</strong> The code explicitly checks <code>renderer = ActionText::Content.renderer</code> and raises with a clear message if nil.</p>
+    <p><strong>Severity:</strong> Low &mdash; this is intentional and well-documented behavior. The error message is descriptive: "attachment_links requires a rendering context". Tests verify this.</p>
+    <p><strong>Mitigation:</strong> Already handled. The default (<code>attachment_links: false</code>) works everywhere. The explicit error is the correct design choice.</p>
+  </div>
+
+  <div class="card">
+    <div class="card-header">
+      <strong>Thread-local renderer safety</strong>
+      <span class="badge badge-approved">Low</span>
+    </div>
+    <p><strong>What could break:</strong> If <code>ActionText::Content.renderer</code> leaks across threads or fibers, URL generation could use the wrong request context.</p>
+    <p><strong>Cause:</strong> This PR doesn't introduce the thread-local pattern &mdash; it was already established by the <code>around_action</code> in the engine initializer. The PR merely reads the existing value.</p>
+    <p><strong>Severity:</strong> Low &mdash; pre-existing pattern, not introduced by this change.</p>
+    <p><strong>Mitigation:</strong> No action needed. The existing <code>with_renderer</code> block pattern ensures cleanup.</p>
+  </div>
+
+  <!-- 8. SUGGESTIONS -->
+  <h2>Suggestions</h2>
+
+  <h3>Should Fix</h3>
+  <div class="card should-fix">
+    <p><strong>File:</strong> <code>CHANGELOG</code> (missing)</p>
+    <p>The PR checklist shows CHANGELOG is unchecked. This is a user-facing feature addition &mdash; <code>to_markdown(attachment_links: true)</code> is a new capability. A CHANGELOG entry in <code>actiontext/CHANGELOG.md</code> would help users discover the feature. The PR author likely intended to add this in a follow-up, and the checkbox was struck through, suggesting this was a conscious decision. Still worth noting.</p>
+  </div>
+
+  <h3>Nice to Have</h3>
+  <div class="card nice-to-have">
+    <p><strong>File:</strong> <code>actiontext/lib/action_text/engine.rb:67</code></p>
+    <p>The <code>raise ArgumentError</code> when no renderer is present is good defensive programming. Consider whether a <code>nil</code> return or falling back to <code>[title]</code> would be more forgiving for callers who might not realize they're outside a request context. However, the current "fail loud" approach is arguably better for Rails &mdash; it prevents silent data loss (URLs silently omitted) and matches the PR description's intent.</p>
+  </div>
+
+  <div class="card nice-to-have">
+    <p><strong>File:</strong> <code>actiontext/test/unit/markdown_conversion_test.rb</code></p>
+    <p>The test renaming (e.g., "attachment with surrounding text" &rarr; "RemoteImage attachment with surrounding text") is a nice clarity improvement. Some tests that were simply reorganized (not changed in behavior) could have been in a separate commit to reduce noise in the diff, but this is a minor style preference and doesn't affect the PR quality.</p>
+  </div>
+
+  <!-- 9. VERDICT -->
+  <div class="verdict-box">
+    <div class="verdict-label" style="color: #3fb950;">&#x2705; Approved</div>
+    <p class="verdict-note">This is a clean, well-scoped feature addition by an experienced Rails contributor. The design is sound: opt-in via keyword argument, backward-compatible defaults, proper error handling for missing context, and URL generation that correctly inherits request state. The test coverage is thorough &mdash; covering image vs non-image blobs, controller vs mailer renderers, script_name propagation, missing renderer errors, metacharacter escaping, and the default behavior remaining unchanged. The code is easy to follow, the documentation is updated, and the signature changes to existing attachable implementations are minimal and non-breaking for the default path. Ship it.</p>
+  </div>
+
+  <!-- 10. FOOTER -->
+  <div class="footer">
+    Generated by Claude Code Review &middot; 2026-03-07 &middot; PR <a href="https://github.com/rails/rails/pull/56894">#56894</a>
+  </div>
+
+</body>
+</html>

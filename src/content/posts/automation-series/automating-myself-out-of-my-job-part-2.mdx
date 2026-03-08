@@ -1,0 +1,73 @@
+---
+title: "Automating Myself Out of My Job - Part 2"
+description: "I'm guilty of every bad commit message sin in the book. So I built a Claude Code skill that writes them better than I ever did."
+pubDate: 2026-02-07
+series: "automation-series"
+seriesOrder: 2
+image: "/og-automation-part-2.png"
+tags: ["automation", "ai", "developer-experience", "git", "commit-messages"]
+---
+
+![The 2am git blame - a stick figure happily committing "fix" during the day, then panicking at 2am when git blame shows that same unhelpful message](/og-automation-part-2.png)
+
+In Part 1, I automated PR descriptions - the thing I was actually good at. That was the end output. The thing reviewers actually see. But a PR doesn't come from nowhere. It's built from commits. So this time, I'm peeling back a layer - automating the step before the PR.
+
+And let me be honest - I needed this one way more. I am guilty of every bad commit message sin in the book. "fix". "f". "feedback". That's me. That's my git log.
+
+## The Graveyard of Bad Commit Messages
+
+Here's the thing about commit messages - nobody cares about them until they desperately need them.
+
+You're shipping a feature. Moving fast. Commits are flying. "wip". "asdf". "changes". "fixed the thing". "ok now it actually works". "please work". You know the vibes.
+
+Then three months later, something breaks in production. It's 2am. You're running git blame on a file trying to figure out why someone changed this one line. And you find it. The commit that introduced the bug. The message?
+
+"misc updates"
+
+*Misc updates.* That's it. That's all the context you get. No explanation of what changed or why. No reference to a ticket. Just two words that tell you absolutely nothing while you're staring at a production incident.
+
+Suddenly commit messages are the most important thing in the world. Suddenly everyone wishes past-them had spent 30 extra seconds writing something useful. But past-them was tired, and the tests were green, and the PR was already approved, and who reads commit messages anyway?
+
+Everyone. At 2am. During an incident.
+
+## Enter Git Commit Message
+
+So I did what I apparently do now - I automated it. I built a Claude Code skill called [Git Commit Message](https://github.com/vamsipavanmahesh/claude-skills/blob/main/git-commit-message.md) that handles the whole thing.
+
+Here's how it works in practice. You finish your changes, stage them, and instead of staring at a blank terminal trying to remember what you just did and why, the skill takes over. It reads through the diff. It figures out what changed - not just the files, but the *intent* behind the changes. It writes a subject line in imperative mood, properly capitalized, under 50 characters. It writes a body that explains the reasoning. It follows all seven rules from the Beams article without you having to remember any of them.
+
+But my favorite part? It checks whether your staged changes should even be one commit. If you've got a refactor, a bug fix, and a new feature all staged together, it'll flag that. Because good commit messages start with good commits, and most people (myself very much included) are terrible at keeping commits atomic.
+
+You still review the message before it goes through. Same philosophy as the PR skill - the AI drafts, you approve. But the drafts are consistently better than what I'd write at 4pm on a Friday after my third bug fix of the day.
+
+## The Part Where I Question Everything Again
+
+So here's the existential sequel.
+
+If an AI can analyze a diff and produce a commit message that follows every best practice, that captures the *why* behind the change, that's properly scoped and clearly written... was the skill ever really about the writing?
+
+I keep coming back to the same answer I landed on in Part 1. The writing was never the hard part. The hard part was caring. It was looking at "fix stuff" and thinking "we can do better." It was understanding that a commit message isn't just a formality - it's a message to your future self and your teammates. A note left in the codebase that says "here's why this decision was made."
+
+The AI figured out *how* to write good messages. But it needed someone to decide that good messages matter. Someone had to care enough to build the skill in the first place.
+
+That's still me. For now.
+
+## A Pattern Emerges
+
+Two skills in, and I'm starting to see a pattern.
+
+PR templates. Commit messages. Both are about bringing structure to chaos. Both are things I was "known for" on my teams. Both are things that developers universally agree are important and universally fail to do well under time pressure.
+
+And I've automated both of them.
+
+That's either terrifying or liberating, and I haven't decided which yet.
+
+## What's Next
+
+The automation train isn't stopping.
+
+Stay tuned. Or don't. The automation will happen regardless.
+
+---
+
+*PS: I ran git log on one of my personal projects while writing this post. My most-used commit message? "wip". Sixty-three times. I rest my case.*

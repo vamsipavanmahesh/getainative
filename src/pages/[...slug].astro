@@ -1,0 +1,31 @@
+---
+import type { GetStaticPaths } from 'astro';
+import { getCollection } from 'astro:content';
+import PostLayout from '../layouts/PostLayout.astro';
+
+export const getStaticPaths: GetStaticPaths = async () => {
+  const posts = await getCollection('posts', ({ data }) => {
+    return import.meta.env.PROD ? !data.draft : true;
+  });
+
+  return posts.map((post) => {
+    const { series } = post.data;
+    const postSlug = post.slug.includes('/') ? post.slug.split('/').pop() : post.slug;
+
+    // URL structure: /{series}/{post} or just /{post}
+    const slug = series ? `${series}/${postSlug}` : postSlug;
+
+    return {
+      params: { slug },
+      props: { post },
+    };
+  });
+};
+
+const { post } = Astro.props;
+const { Content, remarkPluginFrontmatter } = await post.render();
+---
+
+<PostLayout post={post} content={post.body ?? ''}>
+  <Content />
+</PostLayout>

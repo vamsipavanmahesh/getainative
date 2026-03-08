@@ -1,0 +1,36 @@
+---
+interface Props {
+  pubDate: Date;
+  readingTime: number;
+  tags?: string[];
+}
+
+const { pubDate, readingTime, tags = [] } = Astro.props;
+---
+
+<div class="flex flex-wrap items-center gap-3 text-sm" style="color: var(--color-text-muted);">
+  <time datetime={pubDate.toISOString()}>
+    {pubDate.toLocaleDateString('en-US', {
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric',
+    })}
+  </time>
+  <span>·</span>
+  <span>{readingTime} min read</span>
+  {tags.length > 0 && (
+    <>
+      <span>·</span>
+      <div class="flex flex-wrap gap-2">
+        {tags.map((tag) => (
+          <span
+            class="px-2 py-0.5 rounded text-xs"
+            style="background-color: var(--color-border);"
+          >
+            {tag}
+          </span>
+        ))}
+      </div>
+    </>
+  )}
+</div>

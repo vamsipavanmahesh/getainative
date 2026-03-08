@@ -1,0 +1,37 @@
+---
+import type { CollectionEntry } from 'astro:content';
+import { getReadingTime } from '../utils/reading-time';
+
+interface Props {
+  post: CollectionEntry<'posts'>;
+}
+
+const { post } = Astro.props;
+const { title, description, pubDate, series } = post.data;
+
+// Build the URL: /{series}/{post-slug} or just /{post-slug}
+const postSlug = post.slug.includes('/') ? post.slug.split('/').pop() : post.slug;
+const href = series ? `/${series}/${postSlug}` : `/${postSlug}`;
+---
+
+<article class="group">
+  <a href={href} class="block">
+    <h2 class="text-xl font-semibold mb-2 group-hover:opacity-80 transition-opacity">
+      {title}
+    </h2>
+    <p class="mb-3" style="color: var(--color-text-muted);">
+      {description}
+    </p>
+    <time
+      datetime={pubDate.toISOString()}
+      class="text-sm"
+      style="color: var(--color-text-muted);"
+    >
+      {pubDate.toLocaleDateString('en-US', {
+        year: 'numeric',
+        month: 'long',
+        day: 'numeric',
+      })}
+    </time>
+  </a>
+</article>

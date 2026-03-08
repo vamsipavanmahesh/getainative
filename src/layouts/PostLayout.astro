@@ -1,0 +1,70 @@
+---
+import type { CollectionEntry } from 'astro:content';
+import BaseLayout from './BaseLayout.astro';
+import PostMeta from '../components/PostMeta.astro';
+import SeriesBanner from '../components/SeriesBanner.astro';
+import Comments from '../components/Comments.astro';
+import { getReadingTime } from '../utils/reading-time';
+import { getSeriesPosts } from '../utils/posts';
+
+interface Props {
+  post: CollectionEntry<'posts'>;
+  content: string;
+}
+
+const { post, content } = Astro.props;
+const { title, description, pubDate, updatedDate, series, seriesOrder, tags, image } = post.data;
+
+const readingTime = getReadingTime(content);
+
+let seriesPosts: CollectionEntry<'posts'>[] = [];
+if (series) {
+  seriesPosts = await getSeriesPosts(series);
+}
+---
+
+<BaseLayout
+  title={title}
+  description={description}
+  image={image}
+  type="article"
+  pubDate={pubDate}
+  updatedDate={updatedDate}
+>
+  <article class="max-w-3xl mx-auto px-4 py-12">
+    <header class="mb-10">
+      <h1 class="text-4xl font-bold mb-4 leading-tight">{title}</h1>
+      <PostMeta pubDate={pubDate} readingTime={readingTime} tags={tags} />
+    </header>
+
+    {series && seriesPosts.length > 0 && (
+      <SeriesBanner
+        series={series}
+        posts={seriesPosts}
+        currentSlug={post.slug}
+        currentOrder={seriesOrder}
+      />
+    )}
+
+    <div class="prose">
+      <slot />
+    </div>
+
+    {updatedDate && (
+      <p class="mt-12 text-sm" style="color: var(--color-text-muted);">
+        Last updated on {updatedDate.toLocaleDateString('en-US', {
+          year: 'numeric',
+          month: 'long',
+          day: 'numeric',
+        })}
+      </p>
+    )}
+
+    <Comments
+      repo="vamsipavanmahesh/dsa-club-blog"
+      repoId="R_kgDORGEg3g"
+      category="General"
+      categoryId="DIC_kwDORGEg3s4C1uUN"
+    />
+  </article>
+</BaseLayout>

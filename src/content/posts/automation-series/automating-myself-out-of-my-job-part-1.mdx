@@ -1,0 +1,77 @@
+---
+title: "Automating Myself Out of My Job - Part 1"
+description: "I was the PR template guy. Now I've automated it. Anyone can get a well-structured PR without thinking about it. The skill I was known for is now... a prompt?"
+pubDate: 2026-02-01
+series: "automation-series"
+seriesOrder: 1
+tags: ["automation", "ai", "developer-experience", "pull-requests"]
+image: "/og-automation-part-1.png"
+---
+
+![Pink Slip Automation - A stick figure coding while a robot hands them a pink slip](/og-automation-part-1.png)
+
+A large part of my identity is about writing software. Not managing people who write software. Not architecting systems on whiteboards. Actually writing code. Shipping PRs. Watching CI go green. The dopamine hit of merging to main.
+
+So when I started automating parts of that process, it felt... weird. Like I was training my replacement, except my replacement is a bunch of prompts I wrote myself.
+
+## The PR Template Guy
+
+Every team I've joined, I've been quick to introduce a PR template. It's become a bit of a running joke at this point. New guy shows up, within two weeks there's a PR template in the repo.
+
+Here's the thing though - it works. A good PR template sets context. It forces you to think about what you're actually shipping before you hit that "Create pull request" button. It answers the questions your reviewer is going to ask anyway:
+
+- What does this change do?
+- Why are we doing this?
+- How do I test this?
+- Is there anything I should watch out for?
+
+Without a template, PRs end up being a commit message and vibes. With a template, even a junior dev's PR becomes reviewable. The template does the thinking for you. Or rather, it forces you to do the thinking you should've been doing anyway.
+
+I've been doing this for years. It's my move.
+
+## But Filling Out Templates Is Still Grunt Work
+
+Here's what nobody tells you about PR templates: they're annoying to fill out.
+
+You just spent 3 hours debugging some obscure race condition. You finally fixed it. You're mentally exhausted. And now you have to... write a summary of what you did? Check boxes about feature toggles? Explain the testing strategy?
+
+Most devs (myself included, honestly) end up half-assing the template. Quick summary. Check a few boxes. Ship it. The template exists, but it's not doing its job because we're too tired to engage with it properly.
+
+## Enter PR Creation Flow
+
+So I built a Claude Code skill called [PR Creation Flow](https://github.com/vamsipavanmahesh/claude-skills/blob/main/pr-creation-flow.md). Actually, "built" is generous - I wrote a bunch of prompts and wired them together. But it works.
+
+Here's what it does:
+
+1. Creates a PR on GitHub with a proper title (not "fix stuff" or "wip")
+2. Reads through the diff
+3. Fills out the entire PR description - summary, changes made, feature toggle requirements, test coverage, the works
+4. Checks the relevant checkboxes
+
+You still review everything it generates. That's important. I'm not blindly trusting AI to describe my changes. But instead of typing everything from scratch and manually checking every checkbox, I'm reviewing and editing. That's a fundamentally different cognitive load.
+
+The grunt work is gone. The thinking remains.
+
+## The Weird Part
+
+Here's where it gets existential.
+
+I was the PR template guy. That was my thing. I'd join a team, introduce structure, make everyone's PRs better. It was part of my identity as an engineer who cares about process.
+
+Now I've automated it. Anyone can get a well-structured PR without thinking about it. The skill I was known for is now... a prompt?
+
+Part of me feels like I'm making myself less valuable. If anyone can generate good PR descriptions, what's special about being the guy who insisted on them?
+
+But another part of me thinks - maybe the real skill was never filling out templates. Maybe it was recognizing that templates matter. Knowing what questions to ask. Understanding why context helps reviewers.
+
+The automation handles the *what*. I still own the *why*.
+
+## What's Next
+
+This is Part 1 because PR Creation Flow is just the beginning. I've been automating other parts of my workflow too - things I used to consider "my job." Each time I do it, I feel that same mix of efficiency and existential dread.
+
+In the next post, I'll talk about what else I've automated, and whether I'm actually making myself redundant or just... evolving what "my job" even means.
+
+---
+
+*PS: I may have exaggerated about writing code being my whole identity. I actually spend 50% of my time documenting, whiteboarding, and getting alignment. But nobody writes blog posts about being good at async communication.*
