@@ -550,9 +550,6 @@ export default function AINativeSDLC() {
               Book a Call <span style={{ opacity: 0.6 }}>{"\u2192"}</span>
             </a>
           </div>
-          <p style={{ marginTop: 16, fontSize: 13, color: "var(--ink-muted)", fontFamily: "var(--mono)" }}>
-            Teams of 5–30 · Starting at ₹50,000
-          </p>
         </Reveal>
       </section>
 
