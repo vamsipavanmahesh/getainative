@@ -1,0 +1,52 @@
+---
+title: "If You Can't Own the PR, Please Don't Open One"
+description: "A pull request should be opened by the person who can explain the change, assess its risk, and handle the fallout if it goes wrong."
+pubDate: 2026-03-08
+tags: ["ai", "pull-requests", "engineering-culture", "code-review"]
+---
+
+I keep seeing the same pattern in engineering teams.
+
+Product managers are no longer stopping at requirements, wireframes, or backlog grooming. With tools like Claude, Cursor, and Copilot, they can now open pull requests that look credible at first glance. The diff is tidy, the tests pass locally, CI is green, and the change seems small enough to merge without much debate.
+
+This is not automatically a bad thing. Lowering the cost of small changes can reduce queueing and shorten feedback loops. A technically capable PM can absolutely be useful here.
+
+Who typed the code matters less than who is accountable for it.
+
+Writing code and owning code are different responsibilities. You usually see the gap only when a change misbehaves and the question becomes "who understands this well enough to debug it?"
+
+## Plausible Is Not Safe
+
+Code generation tools are very good at producing plausible diffs. That creates an easy but dangerous assumption: if the code looks clean and the tests are green, the change must also be safe.
+
+Experienced engineers read changes differently. They are not only checking syntax or whether the happy path works. They are looking for failure modes, sequencing risk, operational cost, and assumptions one system makes about another.
+
+Consider a migration like this:
+
+```sql
+CREATE INDEX idx_events_account_id ON events (account_id);
+```
+
+There is nothing wrong with that statement in isolation. On a busy Postgres table, however, creating the index without `CONCURRENTLY` can block writes and turn an ordinary deploy into an incident. The SQL is valid. The operational choice is the problem.
+
+That is what experience buys you: memory of how minor-looking changes fail under real traffic and real operational constraints.
+
+## Review Cannot Substitute for Ownership
+
+The same issue appears in tests. Ask a model to add coverage and it will often produce a large amount of passing code that proves very little. The tests restate the implementation instead of probing behavior under failure, edge cases, or bad inputs. The suite gets greener without the system becoming much safer.
+
+This matters because a pull request is not just a patch file. It is an implicit claim by its author: I understand this change, I believe it is the right change, and if it behaves badly, I can help diagnose the consequences.
+
+That expectation is why review works at all. A reviewer is supposed to challenge the author's reasoning and catch what the author missed. A reviewer is not supposed to invent the reasoning on the author's behalf.
+
+When someone opens a PR that is mostly an AI draft they do not fully understand, they shift the hardest part of the work onto the reviewer. The reviewer is no longer providing a second set of eyes. They are being asked to supply the first real ownership in the chain.
+
+## A Reasonable Standard
+
+This is not an argument that PMs should be kept out of the codebase. Some PMs are entirely capable of owning technical changes. The same is true of designers, founders, and anyone else with the context and judgment to do it responsibly. The role is not the point.
+
+Do not open the PR unless you can explain the change, estimate where it can fail, and be the first point of contact if it does.
+
+AI can help with drafting and exploration. It cannot assume accountability for a production change.
+
+Submitting the pull request is the administrative step. Responsibility starts after that.

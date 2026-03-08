@@ -4,6 +4,14 @@ A developer blog built with Astro, hosted on Cloudflare Pages.
 
 **Live site:** https://blog.getainative.com
 
+## Homepage Source Of Truth
+
+- The homepage at `/` must stay aligned with [`landing/index.html`](./landing/index.html).
+- Do not reimplement the homepage in Astro components or restyle it "close enough" unless explicitly asked.
+- [`src/pages/index.astro`](./src/pages/index.astro) is intentionally a passthrough that serves the exact landing HTML.
+- If you need to change the homepage, edit [`landing/index.html`](./landing/index.html).
+- The blog listing lives at `/blog`, not `/`.
+
 ## Development
 
 ```bash
