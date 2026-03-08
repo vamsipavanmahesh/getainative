@@ -506,60 +506,27 @@ export default function AINativeSDLC() {
       {/* ABOUT */}
       <section id="about" style={{ padding: "100px 48px", maxWidth: 1100, margin: "0 auto" }} className="section-pad">
         <Reveal><div className="sec-label">Your Instructor</div></Reveal>
-        <div className="about-grid" style={{ display: "grid", gridTemplateColumns: "1.4fr 1fr", gap: 48, alignItems: "start" }}>
-          <Reveal delay={80}>
-            <h2 className="sec-heading" style={{ marginBottom: 28, maxWidth: 480 }}>
-              Not a consultant who read a blog.
-              <br />
-              <span style={{ fontStyle: "italic", color: "var(--accent)" }}>An engineer who wrote it.</span>
-            </h2>
-            <div style={{ fontSize: 15, lineHeight: 1.75, color: "var(--ink-muted)", display: "flex", flexDirection: "column", gap: 14, maxWidth: 500 }}>
-              <p>
-                I'm Vamsi - a Senior Rails engineer at a fintech startup building cross-border payment systems. 10+ years shipping production code across fintech, edtech, and enterprise SaaS.
-              </p>
-              <p>
-                I systematically automated every repetitive part of my development workflow - PR descriptions, commit messages, code review, test generation, debugging - and documented it all in a public blog series called{" "}
-                <a href="https://blog.getainative.com" style={{ color: "var(--accent)", fontWeight: 500, borderBottom: "1px solid rgba(196,93,62,0.3)" }}>
-                  "Automating Myself Out of My Job"
-                </a>.
-              </p>
-              <p style={{ color: "var(--ink-light)" }}>
-                Teammates adopted these workflows and reported measurably better outcomes. Everything I teach, I use daily in production.
-              </p>
-            </div>
-          </Reveal>
-
-          <Reveal delay={200}>
-            <div style={{
-              padding: 28,
-              background: "rgba(255,255,255,0.5)",
-              border: "1px solid rgba(26,26,46,0.06)",
-              borderRadius: 12,
-              fontFamily: "var(--mono)", fontSize: 13,
-            }}>
-              <div style={{ fontSize: 11, fontWeight: 500, letterSpacing: 2, color: "var(--ink-muted)", marginBottom: 20, textTransform: "uppercase" }}>Quick Facts</div>
-              {[
-                { label: "experience", value: "10+ years" },
-                { label: "stack", value: "Ruby on Rails" },
-                { label: "domain", value: "Fintech / Payments" },
-                { label: "talks", value: "Ruby Meetups, Internal" },
-                { label: "tools", value: "Claude Code, AI Agents" },
-              ].map((item, i) => (
-                <div key={i} style={{ display: "flex", justifyContent: "space-between", padding: "10px 0", borderTop: i > 0 ? "1px solid rgba(26,26,46,0.06)" : "none" }}>
-                  <span style={{ color: "var(--ink-muted)" }}>{item.label}</span>
-                  <span style={{ color: "var(--ink)", fontWeight: 500 }}>{item.value}</span>
-                </div>
-              ))}
-              <a href="https://blog.getainative.com" style={{
-                display: "block", marginTop: 16, paddingTop: 12,
-                borderTop: "1px solid rgba(26,26,46,0.06)",
-                color: "var(--accent)", fontSize: 13, fontWeight: 500
-              }}>
-                Read the blog series {"\u2197"}
-              </a>
-            </div>
-          </Reveal>
-        </div>
+        <Reveal delay={80}>
+          <h2 className="sec-heading" style={{ marginBottom: 28, maxWidth: 480 }}>
+            Not a consultant who read a blog.
+            <br />
+            <span style={{ fontStyle: "italic", color: "var(--accent)" }}>An engineer who wrote it.</span>
+          </h2>
+          <div style={{ fontSize: 15, lineHeight: 1.75, color: "var(--ink-muted)", display: "flex", flexDirection: "column", gap: 14, maxWidth: 600 }}>
+            <p>
+              I'm Vamsi - a Senior Rails engineer at a fintech startup building cross-border payment systems. 10+ years shipping production code across fintech, edtech, and enterprise SaaS.
+            </p>
+            <p>
+              I systematically automated every repetitive part of my development workflow - PR descriptions, commit messages, code review, test generation, debugging - and documented it all in a public blog series called{" "}
+              <a href="https://blog.getainative.com" style={{ color: "var(--accent)", fontWeight: 500, borderBottom: "1px solid rgba(196,93,62,0.3)" }}>
+                "Automating Myself Out of My Job"
+              </a>.
+            </p>
+            <p style={{ color: "var(--ink-light)" }}>
+              Teammates adopted these workflows and reported measurably better outcomes. Everything I teach, I use daily in production.
+            </p>
+          </div>
+        </Reveal>
       </section>
 
       <div className="divider" />
