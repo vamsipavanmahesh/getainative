@@ -19,7 +19,7 @@ const {
   updatedDate,
 } = Astro.props;
 
-const siteUrl = Astro.site?.toString() ?? 'https://blog.dsa.club';
+const siteUrl = Astro.site?.toString() ?? 'https://blog.getainative.com';
 const fullImageUrl = new URL(image, siteUrl).toString();
 const pageUrl = canonicalUrl ?? Astro.url.href;
 ---
@@ -57,7 +57,7 @@ const pageUrl = canonicalUrl ?? Astro.url.href;
 <meta property="og:title" content={title} />
 <meta property="og:description" content={description} />
 <meta property="og:image" content={fullImageUrl} />
-<meta property="og:site_name" content="DSA Club Blog" />
+<meta property="og:site_name" content="Get AI Native Blog" />
 
 <!-- Twitter -->
 <meta property="twitter:card" content="summary_large_image" />
@@ -71,7 +71,7 @@ const pageUrl = canonicalUrl ?? Astro.url.href;
 {updatedDate && <meta property="article:modified_time" content={updatedDate.toISOString()} />}
 
 <!-- RSS Feed -->
-<link rel="alternate" type="application/rss+xml" title="DSA Club Blog" href="/rss.xml" />
+<link rel="alternate" type="application/rss+xml" title="Get AI Native Blog" href="/rss.xml" />
 
 <!-- JSON-LD Structured Data -->
 {type === 'article' && (
@@ -86,11 +86,11 @@ const pageUrl = canonicalUrl ?? Astro.url.href;
     dateModified: updatedDate?.toISOString() ?? pubDate?.toISOString(),
     author: {
       '@type': 'Organization',
-      name: 'DSA Club',
+      name: 'Get AI Native',
     },
     publisher: {
       '@type': 'Organization',
-      name: 'DSA Club',
+      name: 'Get AI Native',
       logo: {
         '@type': 'ImageObject',
         url: new URL('/favicon.svg', siteUrl).toString(),

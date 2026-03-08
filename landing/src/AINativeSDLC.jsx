@@ -2,24 +2,21 @@ import { useState, useEffect, useRef } from "react";
 
 const CALENDLY_URL = "https://calendly.com/YOUR_LINK_HERE";
 
-const blogPosts = [
-  { title: "Part 1: PR Descriptions", url: "https://blog.getainative.com/posts/automating-myself-part-1" },
-  { title: "Part 2: Commit Messages", url: "https://blog.getainative.com/posts/automating-myself-part-2" },
-];
+const blogPosts = [];
 
 const workshopTopics = [
   { num: "01", title: "AI-Powered PR Automation", desc: "Auto-generated PR descriptions with JIRA context, reviewers, and labels. Never write a PR description again." },
-  { num: "02", title: "Automated Code Review", desc: "AI code review agents that catch bugs, suggest improvements, and enforce your team's style — before humans review." },
+  { num: "02", title: "Automated Code Review", desc: "AI code review agents that catch bugs, suggest improvements, and enforce your team's style - before humans review." },
   { num: "03", title: "Commit Message Automation", desc: "Conventional commits, generated from diffs. Consistent git history across your entire team, zero effort." },
   { num: "04", title: "Test Generation Workflows", desc: "AI-assisted test writing that actually understands your codebase. RSpec, Jest, whatever your stack." },
   { num: "05", title: "Debugging & Support Workflows", desc: "Custom AI workflows for triaging production issues, reading logs, and suggesting fixes in context." },
-  { num: "06", title: "Multi-Agent Development", desc: "Claude Code, custom skills, orchestrated agents — the full stack of AI-native development." },
+  { num: "06", title: "Multi-Agent Development", desc: "Claude Code, custom skills, orchestrated agents - the full stack of AI-native development." },
 ];
 
 const deliverables = [
   { title: "Live Workshop", duration: "1–2 hours", detail: "Hands-on, live coding in your actual repo. Not slides about 'the future of AI.' Your team builds and configures real workflows during the session.", num: "01" },
-  { title: "7 Days Async Support", duration: "Post-workshop", detail: "Your team will have questions. Things won't work the first time. I answer everything for 7 days — Slack, email, whatever your team uses.", num: "02" },
-  { title: "Custom Workflow Setup", duration: "Tailored to your stack", detail: "I configure AI workflows for your actual codebase — PR automation, code review agents, debugging pipelines. You keep everything after.", num: "03" },
+  { title: "7 Days Async Support", duration: "Post-workshop", detail: "Your team will have questions. Things won't work the first time. I answer everything for 7 days - Slack, email, whatever your team uses.", num: "02" },
+  { title: "Custom Workflow Setup", duration: "Tailored to your stack", detail: "I configure AI workflows for your actual codebase - PR automation, code review agents, debugging pipelines. You keep everything after.", num: "03" },
 ];
 
 const adjacentItems = [
@@ -242,7 +239,7 @@ export default function AINativeSDLC() {
         <div style={{ maxWidth: 1100, margin: "0 auto", padding: "14px 48px", display: "flex", justifyContent: "space-between", alignItems: "center" }} className="section-pad">
           <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
             <div style={{ width: 7, height: 7, borderRadius: "50%", background: "var(--accent)" }} />
-            <span style={{ fontFamily: "var(--serif)", fontSize: 16, letterSpacing: "-0.01em" }}>DSA Club</span>
+            <span style={{ fontFamily: "var(--serif)", fontSize: 16, letterSpacing: "-0.01em" }}>Get AI Native</span>
           </div>
           <div style={{ display: "flex", alignItems: "center", gap: 28 }}>
             <div className="nav-links" style={{ display: "flex", gap: 28 }}>
@@ -290,7 +287,7 @@ export default function AINativeSDLC() {
           fontSize: 17, lineHeight: 1.7, color: "var(--ink-muted)",
           maxWidth: 520, marginBottom: 40, letterSpacing: "-0.01em"
         }}>
-          From PR descriptions to code review to test generation — a hands-on session where your team builds and ships real AI workflows. Not slides. Not theory. Working automation in your actual codebase.
+          From PR descriptions to code review to test generation - a hands-on session where your team builds and ships real AI workflows. Not slides. Not theory. Working automation in your actual codebase.
         </p>
 
         <div className="hero-anim-4 hero-ctas" style={{ display: "flex", gap: 12, flexWrap: "wrap" }}>
@@ -382,7 +379,7 @@ export default function AINativeSDLC() {
 
       <div className="divider" />
 
-      {/* WHAT YOU GET — ACCORDION */}
+      {/* WHAT YOU GET - ACCORDION */}
       <section id="what-you-get" style={{ padding: "100px 48px", maxWidth: 1100, margin: "0 auto" }} className="section-pad">
         <Reveal><div className="sec-label">What You Get</div></Reveal>
         <Reveal delay={80}>
@@ -518,10 +515,10 @@ export default function AINativeSDLC() {
             </h2>
             <div style={{ fontSize: 15, lineHeight: 1.75, color: "var(--ink-muted)", display: "flex", flexDirection: "column", gap: 14, maxWidth: 500 }}>
               <p>
-                I'm Vamsi — a Senior Rails engineer at a fintech startup building cross-border payment systems. 10+ years shipping production code across fintech, edtech, and enterprise SaaS.
+                I'm Vamsi - a Senior Rails engineer at a fintech startup building cross-border payment systems. 10+ years shipping production code across fintech, edtech, and enterprise SaaS.
               </p>
               <p>
-                I systematically automated every repetitive part of my development workflow — PR descriptions, commit messages, code review, test generation, debugging — and documented it all in a public blog series called{" "}
+                I systematically automated every repetitive part of my development workflow - PR descriptions, commit messages, code review, test generation, debugging - and documented it all in a public blog series called{" "}
                 <a href="https://blog.getainative.com" style={{ color: "var(--accent)", fontWeight: 500, borderBottom: "1px solid rgba(196,93,62,0.3)" }}>
                   "Automating Myself Out of My Job"
                 </a>.
@@ -600,16 +597,7 @@ export default function AINativeSDLC() {
         display: "flex", justifyContent: "space-between", alignItems: "center",
         flexWrap: "wrap", gap: 12
       }} className="section-pad">
-        <span style={{ fontSize: 13, color: "var(--ink-muted)" }}>{"\u00A9"} {new Date().getFullYear()} Vamsi Krishna Kandadai</span>
-        <div style={{ display: "flex", gap: 20 }}>
-          {blogPosts.map((post, i) => (
-            <a key={i} href={post.url} style={{ fontSize: 13, color: "var(--ink-muted)", transition: "color 0.2s" }}
-              onMouseEnter={e => e.target.style.color = "var(--accent)"}
-              onMouseLeave={e => e.target.style.color = "var(--ink-muted)"}>
-              {post.title} {"\u2197"}
-            </a>
-          ))}
-        </div>
+        <span style={{ fontSize: 13, color: "var(--ink-muted)" }}>{"\u00A9"} {new Date().getFullYear()} Vamsi Gunturu</span>
       </footer>
     </div>
   );

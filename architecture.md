@@ -1,8 +1,8 @@
-# DSA Club Blog - Architecture Specification
+# Get AI Native Blog - Architecture Specification
 
 ## Project Overview
 
-Build a developer-focused blog for `blog.dsa.club` using Astro. The design should be clean, minimal, and inspired by [flavienbonvin.com](https://flavienbonvin.com). Focus on readability, beautiful code snippets, and zero bloat.
+Build a developer-focused blog for `blog.getainative.com` using Astro. The design should be clean, minimal, and inspired by [flavienbonvin.com](https://flavienbonvin.com). Focus on readability, beautiful code snippets, and zero bloat.
 
 ## Tech Stack
 
@@ -19,7 +19,7 @@ Build a developer-focused blog for `blog.dsa.club` using Astro. The design shoul
 ## URL Structure
 
 ```
-blog.dsa.club/
+blog.getainative.com/
 ├── /                                    # Home - list of all posts
 ├── /about                               # About page
 ├── /{series-slug}/{post-slug}           # Individual post
@@ -32,7 +32,7 @@ blog.dsa.club/
 ## Directory Structure
 
 ```
-dsa-club-blog/
+getainative/
 ├── astro.config.mjs
 ├── tailwind.config.mjs
 ├── tsconfig.json
@@ -321,7 +321,7 @@ import tailwind from '@astrojs/tailwind';
 import expressiveCode from 'astro-expressive-code';
 
 export default defineConfig({
-  site: 'https://blog.dsa.club',
+  site: 'https://blog.getainative.com',
   integrations: [
     expressiveCode({
       themes: ['github-dark', 'github-light'],
@@ -342,7 +342,7 @@ export default defineConfig({
 
 ```json
 {
-  "name": "dsa-club-blog",
+  "name": "getainative",
   "type": "module",
   "scripts": {
     "dev": "astro dev",

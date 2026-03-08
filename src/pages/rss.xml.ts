@@ -6,9 +6,9 @@ export async function GET(context: APIContext) {
   const posts = await getAllPosts();
 
   return rss({
-    title: 'DSA Club Blog',
+    title: 'Get AI Native Blog',
     description: 'A developer-focused blog about automation, tooling, and software engineering.',
-    site: context.site ?? 'https://blog.dsa.club',
+    site: context.site ?? 'https://blog.getainative.com',
     items: posts.map((post) => ({
       title: post.data.title,
       description: post.data.description,

@@ -1,8 +1,8 @@
-# DSA Club Blog
+# Get AI Native Blog
 
 A developer blog built with Astro, hosted on Cloudflare Pages.
 
-**Live site:** https://blog.dsa.club
+**Live site:** https://blog.getainative.com
 
 ## Development
 
@@ -15,7 +15,7 @@ Open http://localhost:4321
 
 ## Deployment
 
-**Auto-deploy:** Push to `main` branch → Cloudflare Pages deploys automatically.
+**Auto-deploy:** Push to `main` branch - Cloudflare Pages deploys automatically.
 
 ```bash
 git add .
@@ -27,7 +27,7 @@ git push
 
 ```bash
 npm run build
-npx wrangler pages deploy dist --project-name=dsa-club-blog
+npx wrangler pages deploy dist --project-name=getainative-blog
 ```
 
 ## Adding Blog Posts
