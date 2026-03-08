@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from "react";
 
-const CALENDLY_URL = "https://calendly.com/YOUR_LINK_HERE";
+const CALENDLY_URL = "https://calendly.com/gvpmahesh/ai-native-sdlc-workshop-discovery-call";
 
 const blogPosts = [];
 
