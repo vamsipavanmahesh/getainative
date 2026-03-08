@@ -2,7 +2,6 @@ import { useState, useEffect, useRef } from "react";
 
 const CALENDLY_URL = "https://calendly.com/gvpmahesh/ai-native-sdlc-workshop-discovery-call";
 
-const blogPosts = [];
 
 const workshopTopics = [
   { num: "01", title: "AI-Powered PR Automation", desc: "Auto-generated PR descriptions with JIRA context, reviewers, and labels. Never write a PR description again." },
@@ -243,7 +242,7 @@ export default function AINativeSDLC() {
           </div>
           <div style={{ display: "flex", alignItems: "center", gap: 28 }}>
             <div className="nav-links" style={{ display: "flex", gap: 28 }}>
-              {[{ l: "Workshop", h: "#what-you-get" }, { l: "Topics", h: "#topics" }, { l: "About", h: "#about" }, { l: "Blog \u2197", h: "https://blog.getainative.com" }].map(link => (
+              {[{ l: "Workshop", h: "#what-you-get" }, { l: "Topics", h: "#topics" }, { l: "About", h: "#about" }].map(link => (
                 <a key={link.l} href={link.h} style={{ fontSize: 13, color: "var(--ink-muted)", fontWeight: 500, transition: "color 0.2s" }}
                   onMouseEnter={e => e.target.style.color = "var(--ink)"}
                   onMouseLeave={e => e.target.style.color = "var(--ink-muted)"}>
@@ -329,7 +328,7 @@ export default function AINativeSDLC() {
           "10+ years production engineering",
           "Fintech & cross-border payments",
           "Adopted by entire teams",
-          "Documented in public blog series"
+          "Documented workflows in production"
         ].map((item, i) => (
           <span key={i} style={{ fontSize: 12, fontFamily: "var(--mono)", fontWeight: 500, color: "var(--ink-muted)", letterSpacing: "0.03em", whiteSpace: "nowrap" }}>
             {item}
