@@ -8,7 +8,7 @@ export async function GET(context: APIContext) {
   return rss({
     title: 'Get AI Native Blog',
     description: 'A developer-focused blog about automation, tooling, and software engineering.',
-    site: context.site ?? 'https://blog.getainative.com',
+    site: context.site ?? 'https://getainative.com',
     items: posts.map((post) => ({
       title: post.data.title,
       description: post.data.description,

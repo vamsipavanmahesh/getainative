@@ -5,15 +5,39 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>AI Native SDLC Workshop - Get AI Native</title>
   <meta name="description" content="A hands-on workshop that makes your entire SDLC AI Native - from PRs and code review to testing, debugging, and deployment." />
+  <meta name="robots" content="index,follow,max-image-preview:large,max-snippet:-1,max-video-preview:-1" />
+  <link rel="canonical" href="https://getainative.com/" />
   <meta property="og:title" content="AI Native SDLC Workshop - Get AI Native" />
   <meta property="og:description" content="A hands-on workshop that makes your entire SDLC AI Native - from PRs and code review to testing, debugging, and deployment." />
   <meta property="og:type" content="website" />
-  <meta property="og:url" content="https://getainative.com" />
+  <meta property="og:url" content="https://getainative.com/" />
+  <meta property="og:image" content="https://getainative.com/og-default.svg" />
   <meta property="twitter:card" content="summary_large_image" />
   <meta property="twitter:title" content="AI Native SDLC Workshop - Get AI Native" />
   <meta property="twitter:description" content="A hands-on workshop that makes your entire SDLC AI Native - from PRs and code review to testing, debugging, and deployment." />
-  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⚡</text></svg>" />
+  <meta property="twitter:url" content="https://getainative.com/" />
+  <meta property="twitter:image" content="https://getainative.com/og-default.svg" />
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+  <script>document.documentElement.classList.add('js');</script>
   <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Instrument+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebPage",
+      "name": "AI Native SDLC Workshop - Get AI Native",
+      "description": "A hands-on workshop that makes your entire SDLC AI Native - from PRs and code review to testing, debugging, and deployment.",
+      "url": "https://getainative.com/",
+      "isPartOf": {
+        "@type": "WebSite",
+        "name": "Get AI Native",
+        "url": "https://getainative.com/"
+      },
+      "about": {
+        "@type": "Thing",
+        "name": "AI-native development workflows"
+      }
+    }
+  </script>
   <style>
     *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
     html { scroll-behavior: smooth; }
@@ -168,21 +192,26 @@
     .del-num { font-family: var(--mono); font-size: 11px; font-weight: 500; color: var(--ink-muted); transition: color 0.2s; }
     .del-title { font-size: 16px; font-weight: 600; letter-spacing: -0.01em; color: var(--ink-muted); transition: color 0.2s; }
     .del-toggle { font-size: 18px; color: var(--ink-muted); transition: transform 0.25s; }
-    .del-content { max-height: 0; overflow: hidden; transition: max-height 0.35s cubic-bezier(0.16, 1, 0.3, 1); }
+    .del-content { max-height: none; overflow: visible; }
     .del-content-inner { padding-top: 12px; padding-left: 36px; }
     .del-duration { font-family: var(--mono); font-size: 11px; color: var(--accent); font-weight: 500; display: block; margin-bottom: 6px; }
     .del-detail { font-size: 14px; line-height: 1.6; color: var(--ink-muted); }
-    .del-item.active .del-num { color: var(--accent); }
-    .del-item.active .del-title { color: var(--ink); }
-    .del-item.active .del-toggle { transform: rotate(45deg); }
-    .del-item.active .del-content { max-height: 120px; }
+    .js .del-content { max-height: 0; overflow: hidden; transition: max-height 0.35s cubic-bezier(0.16, 1, 0.3, 1); }
+    .js .del-item.active .del-num { color: var(--accent); }
+    .js .del-item.active .del-title { color: var(--ink); }
+    .js .del-item.active .del-toggle { transform: rotate(45deg); }
+    .js .del-item.active .del-content { max-height: 120px; }
 
     .reveal {
+      opacity: 1;
+      transform: none;
+    }
+    .js .reveal {
       opacity: 0;
       transform: translateY(24px);
       transition: opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1), transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
     }
-    .reveal.visible {
+    .js .reveal.visible {
       opacity: 1;
       transform: translateY(0);
     }
@@ -274,6 +303,7 @@
     </div>
   </nav>
 
+  <main id="main-content">
   <!-- HERO -->
   <section class="section-pad" style="position: relative; padding-top: 152px; padding-bottom: 80px; max-width: 1100px; margin: 0 auto;">
     <div class="hero-anim-1" style="margin-bottom: 24px;">
@@ -565,6 +595,7 @@
       </div>
     </div>
   </section>
+  </main>
 
   <!-- FOOTER -->
   <footer class="section-pad" style="padding-top: 28px; padding-bottom: 28px; border-top: 1px solid rgba(26,26,46,0.06); max-width: 1100px; margin: 0 auto;">

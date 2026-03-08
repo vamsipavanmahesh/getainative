@@ -5,7 +5,7 @@ import expressiveCode from 'astro-expressive-code';
 import tailwindcss from '@tailwindcss/vite';
 
 export default defineConfig({
-  site: 'https://blog.getainative.com',
+  site: 'https://getainative.com',
   prefetch: {
     prefetchAll: true,
     defaultStrategy: 'viewport',

@@ -1,0 +1,18 @@
+# Get AI Native
+
+Get AI Native is a workshop-led site about AI-native software development for engineering teams.
+
+Primary pages:
+- https://getainative.com/
+- https://getainative.com/blog/
+- https://getainative.com/about/
+- https://getainative.com/rss.xml
+- https://getainative.com/sitemap-index.xml
+
+Summary:
+- The homepage describes a hands-on workshop for engineering teams on AI-native development workflows.
+- The blog covers automation, code review, judgment, testing, and practical engineering use of AI tools.
+- The site is authored by Vamsi Gunturu.
+
+Contact:
+- Workshop booking: https://calendly.com/gvpmahesh/ai-native-sdlc-workshop-discovery-call

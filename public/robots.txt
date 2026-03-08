@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://blog.dsa.club/sitemap-index.xml
+Sitemap: https://getainative.com/sitemap-index.xml
