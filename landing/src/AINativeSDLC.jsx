@@ -514,16 +514,25 @@ export default function AINativeSDLC() {
           </h2>
           <div style={{ fontSize: 15, lineHeight: 1.75, color: "var(--ink-muted)", display: "flex", flexDirection: "column", gap: 14, maxWidth: 600 }}>
             <p>
-              I'm Vamsi - a Senior Rails engineer at a fintech startup building cross-border payment systems. 10+ years shipping production code across fintech, edtech, and enterprise SaaS.
+              I'm Vamsi Gunturu.
             </p>
             <p>
-              I systematically automated every repetitive part of my development workflow - PR descriptions, commit messages, code review, test generation, debugging - and documented it all in a public blog series called{" "}
-              <a href="https://blog.getainative.com" style={{ color: "var(--accent)", fontWeight: 500, borderBottom: "1px solid rgba(196,93,62,0.3)" }}>
-                "Automating Myself Out of My Job"
-              </a>.
+              For over a decade I've shipped production systems used by millions. I've led engineering at a $200M edtech company through Series A, worked as a Staff Engineer at a billion-dollar European bank, and now build cross-border payment infrastructure processing hundreds of millions in volume.
+            </p>
+            <p>
+              I adopted AI-native development early, not as a side experiment but as part of my daily workflow.
             </p>
             <p style={{ color: "var(--ink-light)" }}>
-              Teammates adopted these workflows and reported measurably better outcomes. Everything I teach, I use daily in production.
+              The techniques in this course come directly from that practice.
+            </p>
+            <p>
+              I've shared these workflows at engineering meetups and internal team workshops. Teams that adopted them saw meaningful improvements in development speed, debugging time, and overall code quality.
+            </p>
+            <p style={{ color: "var(--ink-light)" }}>
+              Everything you'll learn here follows one simple rule.
+            </p>
+            <p style={{ color: "var(--ink)", fontWeight: 500 }}>
+              If it doesn't work in production, I don't teach it.
             </p>
           </div>
         </Reveal>
